@@ -10,11 +10,12 @@ const DishCard = ({ dish, displayLanguage = 'zh', menuLanguage = 'zh', userCurre
 
   const d = getDishTranslation(dish, displayLanguage);
 
-  // 旅游地货币（大号）= localCurrency，本国货币（小号）= userCurrency
-  const localSym = getCurrencySymbol(localCurrency);
+  // 菜单当地货币（大号），用户本国货币（小号换算）
+  const menuCur = dish.menuCurrency || localCurrency;
+  const menuSym = getCurrencySymbol(menuCur);
   const homeSym = getCurrencySymbol(userCurrency);
-  const localPrice = dish.prices?.[localCurrency] ?? dish.prices?.[dish.menuCurrency] ?? 0;
-  const homePrice = dish.prices?.[userCurrency] ?? dish.prices?.[dish.menuCurrency] ?? 0;
+  const menuPrice = dish.prices?.[menuCur] ?? 0;
+  const homePrice = dish.prices?.[userCurrency] ?? menuPrice;
   const needsExpand = (d.description?.length || 0) > 80;
 
   // 过敏原 + 饮食禁忌警告（用 key 匹配，与显示语言无关）
@@ -170,7 +171,7 @@ const DishCard = ({ dish, displayLanguage = 'zh', menuLanguage = 'zh', userCurre
         {/* 价格：菜单货币（大）+ 用户母语货币换算（小） */}
         <div className="flex justify-between items-baseline border-t border-[rgba(61,43,31,0.08)] pt-2.5">
           <span className="text-[22px] font-bold text-[#3D2B1F]" style={{ fontFamily: "'Noto Serif CJK SC', 'Songti SC', serif" }}>
-            {localSym} {localPrice}
+            {menuSym} {menuPrice}
           </span>
           <span className="text-[12px] text-[#9a7b5e]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             ≈ {homeSym}{homePrice} {userCurrency}
