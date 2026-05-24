@@ -77,11 +77,15 @@ export function ocrToDishCard(ocrDish, index, defaultCurrency, targetLang) {
 export function mergeDishDetail(dishCard, detail, targetLang, userLang) {
   const translations = {};
 
-  const displayName = dishCard.translatedName || dishCard.originalName;
+  // 目标语言 → 显示翻译名（卡片小字斜体）
+  // 用户语言 → 显示原文菜名（卡片大标题），同语言时用翻译名
+  const targetName = dishCard.translatedName || dishCard.originalName;
+  const userName = (userLang === targetLang)
+    ? targetName
+    : (dishCard.originalName || targetName);
 
-  // 目标语言版本（菜单当地语言 → 卡片小字斜体）
   translations[targetLang] = {
-    name: displayName,
+    name: targetName,
     description: '',
     ingredients: detail.ingredients || [],
     allergens: detail.allergens || [],
@@ -89,7 +93,7 @@ export function mergeDishDetail(dishCard, detail, targetLang, userLang) {
 
   // 用户母语版本（卡片大标题）
   translations[userLang] = {
-    name: displayName,
+    name: userName,
     description: detail.culturalNote || '',
     ingredients: detail.ingredients || [],
     allergens: detail.allergens || [],
