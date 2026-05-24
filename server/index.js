@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 // 中间件
 app.use(cors());
@@ -21,6 +21,6 @@ app.use('/api', require('./routes/order'));
 app.use('/api', require('./routes/exchange'));
 app.use('/api', require('./routes/images'));
 
-app.listen(PORT, () => {
-  console.log(`MenuTalk server running on http://localhost:${PORT}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
 });
