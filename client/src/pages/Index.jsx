@@ -104,7 +104,8 @@ const Index = () => {
       const targetLang = userSettings.targetLanguage;
       const userCurrency = userSettings.currency || 'CNY';
       const defaultCurrency = userSettings.localCurrency || langToCurrency[targetLang] || 'USD';
-      const ocrResult = await ocrMenu(photoUrl, targetLang);
+      // OCR 翻译到用户母语，这样大标题是用户看得懂的语言
+      const ocrResult = await ocrMenu(photoUrl, lang);
       const ocrDishes = ocrResult.dishes || [];
 
       // 用 OCR 识别出的第一种货币作为菜单货币
@@ -226,8 +227,8 @@ const Index = () => {
   // ---- 全屏视图：识别中 ----
   if (currentView === 'loading') {
     return (
-      <div className="min-h-screen bg-[#1a1008] text-amber-50 relative overflow-hidden">
-        <LoadingView photo={capturedPhoto} lang={lang} />
+      <div className={`min-h-screen relative overflow-hidden ${theme === 'light' ? 'bg-[#FBF7F0] text-stone-800' : 'bg-[#1a1008] text-amber-50'}`}>
+        <LoadingView photo={capturedPhoto} lang={lang} theme={theme} />
       </div>
     );
   }
