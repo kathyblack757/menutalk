@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -14,12 +16,21 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// 路由
+// API 路由
 app.use('/api', require('./routes/ocr'));
 app.use('/api', require('./routes/dish'));
 app.use('/api', require('./routes/order'));
 app.use('/api', require('./routes/exchange'));
 app.use('/api', require('./routes/images'));
+
+// 托管前端静态文件
+const clientDist = path.join(__dirname, '..', 'client', 'dist');
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
