@@ -72,7 +72,6 @@ const ProfileView = ({ settings = {}, onSettingsChange }) => {
     { key: 'spiceTolerance', icon: Flame, title: t(lang, 'profile.spiceTolerance') },
   ];
   const systemItems = [
-    { key: 'localCurrency', icon: Wallet, title: t(lang, 'profile.localCurrency') },
     { key: 'currency', icon: Wallet, title: t(lang, 'profile.currency') },
     { key: 'speechRate', icon: Volume2, title: t(lang, 'profile.speechRate') },
     { key: 'theme', icon: SunMoon, title: t(lang, 'profile.theme') },
