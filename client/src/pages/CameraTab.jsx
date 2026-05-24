@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Camera, Image } from 'lucide-react';
 import { t } from '@/i18n/translations';
 
-const CameraTab = ({ onStartShoot, onPhotoTaken, onDemo, lang = 'zh', theme = 'light' }) => {
+const CameraTab = ({ onStartShoot, onPhotoTaken, lang = 'zh', theme = 'light' }) => {
   const isLight = theme === 'light';
   const fileRef = useRef(null);
 
@@ -55,14 +55,6 @@ const CameraTab = ({ onStartShoot, onPhotoTaken, onDemo, lang = 'zh', theme = 'l
       >
         <Image size={14} />
         {t(lang, 'camera.fromAlbum')}
-      </button>
-
-      {/* 演示模式 → 跳过API调用，直接用测试数据 */}
-      <button
-        onClick={onDemo}
-        className={`mt-4 text-[11px] px-3 py-1.5 rounded-full active:scale-95 transition-transform ${isLight ? 'text-stone-400 bg-stone-200/40' : 'text-amber-100/35 bg-white/4'}`}
-      >
-        {t(lang, 'camera.skipDemo')}
       </button>
 
     </div>
