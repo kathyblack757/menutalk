@@ -20,7 +20,12 @@ const ProfileView = ({ settings = {}, onSettingsChange }) => {
         : [...current, value];
       onSettingsChange({ ...settings, [key]: updated });
     } else {
-      onSettingsChange({ ...settings, [key]: value });
+      const patch = { [key]: value };
+      if (key === 'targetLanguage') {
+        const langToCur = { zh: 'CNY', en: 'USD', ja: 'JPY', ko: 'KRW' };
+        patch.localCurrency = langToCur[value] || settings.localCurrency;
+      }
+      onSettingsChange({ ...settings, ...patch });
       setActiveSheet(null);
     }
   };
@@ -72,6 +77,7 @@ const ProfileView = ({ settings = {}, onSettingsChange }) => {
     { key: 'spiceTolerance', icon: Flame, title: t(lang, 'profile.spiceTolerance') },
   ];
   const systemItems = [
+    { key: 'localCurrency', icon: Wallet, title: t(lang, 'profile.localCurrency') },
     { key: 'currency', icon: Wallet, title: t(lang, 'profile.currency') },
     { key: 'speechRate', icon: Volume2, title: t(lang, 'profile.speechRate') },
     { key: 'theme', icon: SunMoon, title: t(lang, 'profile.theme') },
