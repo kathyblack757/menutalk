@@ -18,7 +18,7 @@ router.post('/ocr', upload.single('image'), async (req, res) => {
 请识别这张菜单照片中的所有菜品，并以 JSON 格式返回。
 
 ## 目标语言
-${targetLang}（如 "English" / "日本語" / "한국어"）
+${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
 
 ## 输出格式
 只返回合法 JSON，不要任何解释、markdown 标记或代码块符号。
