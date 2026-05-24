@@ -49,16 +49,17 @@ export async function generateOrder(dishes, targetLang, totalLocal, totalConvert
 /**
  * 将 OCR 返回的菜品转换为 DishCard 兼容格式
  */
-export function ocrToDishCard(ocrDish, index, menuCurrency, targetLang) {
+export function ocrToDishCard(ocrDish, index, defaultCurrency, targetLang) {
+  const currency = ocrDish.currency || defaultCurrency;
   return {
     id: `dish_${index}`,
     originalName: ocrDish.originalName,
     translatedName: ocrDish.translatedName,
     menuLanguage: targetLang,
-    menuCurrency,
+    menuCurrency: currency,
     prices: ocrDish.price != null
-      ? { [menuCurrency]: ocrDish.price }
-      : { [menuCurrency]: 0 },
+      ? { [currency]: ocrDish.price }
+      : { [currency]: 0 },
     image: '',
     spiceLevel: 0,
     calories: 'medium',

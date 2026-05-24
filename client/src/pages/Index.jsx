@@ -9,7 +9,7 @@ import LoadingView from '@/pages/LoadingView';
 import HistoryView from '@/components/HistoryView';
 import ProfileView from '@/components/ProfileView';
 import { saveHistory } from '@/lib/history';
-import { ocrMenu, getDishDetail, ocrToDishCard, mergeDishDetail } from '@/lib/api';
+import { ocrMenu, getDishDetail, ocrToDishCard, mergeDishDetail, getExchangeRate } from '@/lib/api';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('scan');
@@ -102,14 +102,32 @@ const Index = () => {
     setIsDishLoading(true);
     try {
       const targetLang = userSettings.targetLanguage;
-      const menuCurrency = userSettings.localCurrency || langToCurrency[targetLang] || 'USD';
+      const userCurrency = userSettings.currency || 'CNY';
+      const defaultCurrency = userSettings.localCurrency || langToCurrency[targetLang] || 'USD';
       const ocrResult = await ocrMenu(photoUrl, targetLang);
       const ocrDishes = ocrResult.dishes || [];
 
+      // 用 OCR 识别出的第一种货币作为菜单货币
+      const menuCurrency = ocrDishes[0]?.currency || defaultCurrency;
+
+      // 获取汇率
+      let exchangeRate = 1;
+      if (menuCurrency !== userCurrency) {
+        try {
+          const rateResult = await getExchangeRate(menuCurrency, userCurrency);
+          exchangeRate = rateResult.rate || 1;
+        } catch { /* 汇率失败用 1:1 兜底 */ }
+      }
+
       // 转换为 DishCard 兼容格式
-      let cardDishes = ocrDishes.map((d, i) =>
-        ocrToDishCard(d, i, menuCurrency, targetLang)
-      );
+      let cardDishes = ocrDishes.map((d, i) => {
+        const card = ocrToDishCard(d, i, menuCurrency, targetLang);
+        // 添加用户货币换算
+        if (d.price != null && menuCurrency !== userCurrency) {
+          card.prices[userCurrency] = Math.round(d.price * exchangeRate * 100) / 100;
+        }
+        return card;
+      });
 
       // 并行加载所有菜品详情
       const details = await Promise.allSettled(
