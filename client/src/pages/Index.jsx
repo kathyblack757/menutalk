@@ -10,6 +10,7 @@ import HistoryView from '@/components/HistoryView';
 import ProfileView from '@/components/ProfileView';
 import { saveHistory } from '@/lib/history';
 import { ocrMenu, getDishDetail, ocrToDishCard, mergeDishDetail, getExchangeRate } from '@/lib/api';
+import { mockDishes } from '@/data/mockDishes';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('scan');
@@ -162,6 +163,12 @@ const Index = () => {
   }, [handlePhotoWithOCR]);
 
   // ViewfinderPage: 取消 → 回到 Tab 页
+  // 演示模式：跳过所有 API，直接用测试数据（零花费）
+  const handleDemo = useCallback(() => {
+    setDishes(mockDishes);
+    setCurrentView('swiper');
+  }, []);
+
   const handleCancelViewfinder = useCallback(() => {
     setCurrentView('tabs');
   }, []);
@@ -281,6 +288,7 @@ const Index = () => {
           <CameraTab
             onStartShoot={handleStartShoot}
             onPhotoTaken={handleDirectPhoto}
+            onDemo={handleDemo}
             lang={lang}
             theme={theme}
           />
