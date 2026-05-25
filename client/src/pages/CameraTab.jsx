@@ -32,6 +32,16 @@ const CameraTab = ({ onStartShoot, onPhotoTaken, lang = 'zh', theme = 'light' })
         className="hidden"
       />
 
+      {/* 顶部 Logo */}
+      <div className="absolute top-6 left-6">
+        <span
+          className="text-base font-bold tracking-wider"
+          style={{ fontFamily: "'Playfair Display', serif", color: '#C9A96E' }}
+        >
+          Menutalk
+        </span>
+      </div>
+
       {/* 拍摄按钮 → 跳转到取景框页面 */}
       <button
         onClick={onStartShoot}
@@ -41,7 +51,7 @@ const CameraTab = ({ onStartShoot, onPhotoTaken, lang = 'zh', theme = 'light' })
           boxShadow: '0 4px 20px rgba(201,169,110,0.45)',
         }}
       >
-        <Camera size={32} color="#fff" strokeWidth={1.5} />
+        <Camera size={34} color="#fff" strokeWidth={1.5} />
       </button>
 
       <p className={`text-[13px] mt-5 tracking-wide ${isLight ? 'text-stone-400' : 'text-stone-500'}`}>
