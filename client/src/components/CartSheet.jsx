@@ -41,8 +41,8 @@ const CartSheet = ({ open, onOpenChange, cart, onUpdateQuantity, onRemove, userL
       setOrderText(result.orderText);
       setOrderTextLocal(result.orderTextLocal);
     } catch {
-      setOrderText('点单文案生成失败，请重试');
-      setOrderTextLocal('Failed to generate order script. Please try again.');
+      setOrderText(t(lang, 'cart.generateFailed'));
+      setOrderTextLocal(t(lang, 'cart.generateFailed'));
     } finally {
       setScriptLoading(false);
     }

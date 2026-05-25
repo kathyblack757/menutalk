@@ -2,6 +2,8 @@ export const SETTING_OPTIONS = {
   interfaceLanguage: [
     { value: 'zh', label: '中文' },
     { value: 'en', label: 'English' },
+    { value: 'ja', label: '日本語' },
+    { value: 'ko', label: '한국어' },
   ],
   targetLanguage: [
     { value: 'zh', label: '中文' },

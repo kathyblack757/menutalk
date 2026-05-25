@@ -47,6 +47,7 @@ const messages = {
       total: '合计',
       converted: '换算',
       generating: '生成中...',
+      generateFailed: '点单文案生成失败，请重试',
     },
     order: {
       greeting: '您好，我想要点',
@@ -148,6 +149,7 @@ const messages = {
       total: 'Total',
       converted: 'Converted',
       generating: 'Generating...',
+      generateFailed: 'Failed to generate order script. Please try again.',
     },
     order: {
       greeting: "Hello, I'd like to order",
@@ -215,7 +217,7 @@ const messages = {
     },
     swiper: { allDone: 'すべての料理を確認しました', allDoneHint: '右下のカートをタップして注文', skip: 'スキップ', add: '追加', dragHint: '← スキップ     追加 →' },
     card: { ingredients: '食材', allergens: 'アレルゲン', allergenWarn: '含アレルゲン', restrictionWarn: '食事制限', expand: 'もっと見る', collapse: '閉じる', spice: '辛さ', spiceOver: '超え', calories: 'カロリー', calLow: '低', calMedium: '中', calHigh: '高', popular: '人気' },
-    cart: { title: '注文カート', empty: 'まだ料理が選択されていません', generate: '注文スクリプトを生成', hide: 'スクリプトを隠す', speak: 'AI 読み上げ', total: '合計', converted: '換算' },
+    cart: { title: '注文カート', empty: 'まだ料理が選択されていません', generate: '注文スクリプトを生成', hide: 'スクリプトを隠す', speak: 'AI 読み上げ', total: '合計', converted: '換算', generating: '生成中...', generateFailed: '注文スクリプトの生成に失敗しました。再試行してください。' },
     order: { greeting: '注文したいのは', thanks: '、ありがとうございます。', quantity: (n, name) => `${name}を${n}つ`, join: '、' },
     profile: { title: '個人', editProfile: 'プロフィール編集', dietSection: '食事設定', systemSection: 'システム設定', settings: '設定', interfaceLang: 'インターフェース言語', targetLang: '翻訳言語', currency: 'マイ通貨', localCurrency: '現地通貨', allergens: 'アレルゲン', allergenWarn: '含アレルゲン', restrictionWarn: '食事制限', restrictions: '食事制限', speechRate: '読み上げ速度', theme: 'テーマ', spiceTolerance: '辛さ許容度', notSet: '未設定', selected: (n) => `${n}項目選択中`, chooseTargetLang: '翻訳言語を選択', chooseInterfaceLang: 'インターフェース言語を選択', inputName: 'ユーザー名を入力', confirm: '確定', spiceLevels: ['なし', '微辛', '中辛', '辛い', '激辛'] },
     history: { title: '撮影履歴', empty: '履歴がありません', emptyHint: 'メニューを撮影すると自動保存されます', back: '戻る', dishes: (n) => `${n}品の料理`, dishList: '料理リスト', found: (n) => `${n}品の料理を認識しました`, wantOrder: '注文したい' },
@@ -240,7 +242,7 @@ const messages = {
     },
     swiper: { allDone: '모든 요리를 확인했습니다', allDoneHint: '오른쪽 아래 카트를 탭하여 주문', skip: '건너뛰기', add: '추가', dragHint: '← 건너뛰기     추가 →' },
     card: { ingredients: '재료', allergens: '알레르기 유발물질', allergenWarn: '알레르기', restrictionWarn: '식이제한', expand: '더 보기', collapse: '접기', spice: '매운맛', spiceOver: '초과', calories: '칼로리', calLow: '낮음', calMedium: '보통', calHigh: '높음', popular: '인기' },
-    cart: { title: '주문 카트', empty: '아직 선택한 요리가 없습니다', generate: '주문 스크립트 생성', hide: '스크립트 숨기기', speak: 'AI 읽기', total: '합계', converted: '환산' },
+    cart: { title: '주문 카트', empty: '아직 선택한 요리가 없습니다', generate: '주문 스크립트 생성', hide: '스크립트 숨기기', speak: 'AI 읽기', total: '합계', converted: '환산', generating: '생성 중...', generateFailed: '주문 스크립트 생성에 실패했습니다. 다시 시도해 주세요.' },
     order: { greeting: '주문할게요', thanks: ', 감사합니다.', quantity: (n, name) => `${name} ${n}개`, join: ', ' },
     profile: { title: '프로필', editProfile: '프로필 편집', settings: '설정', interfaceLang: '인터페이스 언어', targetLang: '번역 언어', currency: '내 통화', localCurrency: '현지 통화', allergens: '식이 제한 / 알레르기', theme: '테마', spiceTolerance: '매운맛 허용도', notSet: '미설정', selected: (n) => `${n}개 선택됨`, chooseTargetLang: '번역 언어 선택', chooseInterfaceLang: '인터페이스 언어 선택', inputName: '사용자 이름 입력', confirm: '확인', spiceLevels: ['안 매움', '약간 매움', '중간 매움', '매움', '엄청 매움'] },
     history: { title: '촬영 기록', empty: '기록이 없습니다', emptyHint: '메뉴를 촬영하면 자동 저장됩니다', back: '뒤로', dishes: (n) => `${n}개 요리`, dishList: '요리 목록', found: (n) => `${n}개 요리를 발견했습니다`, wantOrder: '주문하기' },
