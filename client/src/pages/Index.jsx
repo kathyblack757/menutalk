@@ -102,12 +102,23 @@ const Index = () => {
     setIsDishLoading(true);
     setCart([]); // 新菜单清空旧购物车
     try {
-      const targetLang = userSettings.targetLanguage;
       const userCurrency = userSettings.currency || 'CNY';
-      const defaultCurrency = userSettings.localCurrency || langToCurrency[targetLang] || 'USD';
+      let targetLang = userSettings.targetLanguage;
       // OCR 翻译到用户母语，这样大标题是用户看得懂的语言
       const ocrResult = await ocrMenu(photoUrl, lang);
       const ocrDishes = ocrResult.dishes || [];
+
+      // 自动检测菜单语言 → 更新目标语言和旅游地货币
+      const detectedLang = ocrResult.detectedLanguage;
+      if (detectedLang && ['zh', 'en', 'ja', 'ko'].includes(detectedLang)) {
+        targetLang = detectedLang;
+        setUserSettings((prev) => ({
+          ...prev,
+          targetLanguage: detectedLang,
+          localCurrency: langToCurrency[detectedLang] || prev.localCurrency,
+        }));
+      }
+      const defaultCurrency = userSettings.localCurrency || langToCurrency[targetLang] || 'USD';
 
       // 用 OCR 识别出的第一种货币作为菜单货币
       const symbolToCode = { '¥': 'JPY', '￥': 'JPY', '₩': 'KRW', '€': 'EUR', '£': 'GBP', '$': 'USD' };

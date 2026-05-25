@@ -35,10 +35,13 @@ ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
       "confidence": "high"
     }
   ],
-  "totalCount": 15
+  "totalCount": 15,
+  "detectedLanguage": "zh"
 }
 
 ## 字段说明
+
+**detectedLanguage**：菜单文字的语言代码（zh/en/ja/ko）
 
 **translatedName**
 - 菜名直接翻译即可
