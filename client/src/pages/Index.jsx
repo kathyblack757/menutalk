@@ -100,6 +100,7 @@ const Index = () => {
     setCapturedPhoto(photoUrl);
     setCurrentView('loading');
     setIsDishLoading(true);
+    setCart([]); // 新菜单清空旧购物车
     try {
       const targetLang = userSettings.targetLanguage;
       const userCurrency = userSettings.currency || 'CNY';
