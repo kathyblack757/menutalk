@@ -35,11 +35,11 @@ export async function getExchangeRate(from = 'CNY', to = 'USD') {
   return data;
 }
 
-export async function generateOrder(dishes, targetLang, totalLocal, totalConverted, convertedCurrency) {
+export async function generateOrder(dishes, targetLang, userLang, totalLocal, totalConverted, convertedCurrency) {
   const res = await fetch(`${BASE}/order`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ dishes, targetLang, totalLocal, totalConverted, convertedCurrency }),
+    body: JSON.stringify({ dishes, targetLang, userLang, totalLocal, totalConverted, convertedCurrency }),
   });
   const data = await res.json();
   if (!data.success) throw new Error(data.error?.message || 'Order generation failed');

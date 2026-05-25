@@ -112,14 +112,23 @@ const DishCard = ({ dish, displayLanguage = 'zh', menuLanguage = 'zh', userCurre
 
         </div>
         <div className="flex flex-wrap gap-1 mb-2">
-          {(d.allergens || []).map((al) =>
-          <span
-            key={al}
-            className="text-[11px] font-medium px-2 py-[2px] rounded-full border text-[#C23B22] bg-[rgba(194,59,34,0.1)]"
-            style={{ fontFamily: "'DM Sans', sans-serif", borderColor: 'rgba(194,59,34,0.3)' }}>
-            
-              ⚠ {al}
+          {(d.allergens || []).length === 0 ? (
+            <span
+              className="text-[11px] px-2 py-[2px] rounded-full border text-[#9a7b5e] bg-[rgba(139,105,20,0.06)]"
+              style={{ fontFamily: "'DM Sans', sans-serif", borderColor: 'rgba(139,105,20,0.15)' }}
+            >
+              {tr(lang, 'card.none')}
             </span>
+          ) : (
+            (d.allergens || []).map((al) =>
+              <span
+                key={al}
+                className="text-[11px] font-medium px-2 py-[2px] rounded-full border text-[#C23B22] bg-[rgba(194,59,34,0.1)]"
+                style={{ fontFamily: "'DM Sans', sans-serif", borderColor: 'rgba(194,59,34,0.3)' }}
+              >
+                ⚠ {al}
+              </span>
+            )
           )}
         </div>
 
@@ -144,12 +153,6 @@ const DishCard = ({ dish, displayLanguage = 'zh', menuLanguage = 'zh', userCurre
               </span>
             );
           })}
-          <span
-            className="text-[11px] text-[#9a7b5e] bg-[rgba(139,105,20,0.06)] px-[7px] py-[2px] rounded-full"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            
-            {tr(lang, 'card.calories')}: {tr(lang, 'card.cal' + { low: 'Low', medium: 'Medium', high: 'High' }[dish.calories || 'medium'])}
-          </span>
         </div>
 
         {/* 描述 - 可展开，防止溢出 */}

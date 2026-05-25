@@ -34,6 +34,7 @@ const CartSheet = ({ open, onOpenChange, cart, onUpdateQuantity, onRemove, userL
       const result = await generateOrder(
         dishList,
         userLanguage,
+        lang,
         totalMenu.toFixed(2),
         totalUser.toFixed(2),
         userCurrency

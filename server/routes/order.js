@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/order', async (req, res) => {
   try {
-    const { dishes, targetLang, totalLocal, totalConverted, convertedCurrency } = req.body;
+    const { dishes, targetLang, userLang, totalLocal, totalConverted, convertedCurrency } = req.body;
 
     if (!dishes || dishes.length === 0) {
       return res.status(400).json({ success: false, error: { code: 'NO_DISHES', message: '购物车为空' } });
@@ -20,11 +20,12 @@ router.post('/order', async (req, res) => {
 ## 菜品
 ${dishesStr}
 
-## 目标语言
-${targetLang || 'en'}
+## 语言
+- 用户母语：${userLang || 'zh'}
+- 当地语言：${targetLang || 'en'}
 
 ## 要求
-话术结构：打招呼 + 列出菜品和数量 + 结束语（如"谢谢"）。
+话术结构：打招呼 + 列出菜品和数量 + 结束语。
 不要包含价格信息。
 保持简短，不超过 3 句话。
 
@@ -32,13 +33,12 @@ ${targetLang || 'en'}
 只返回合法 JSON，不要任何解释、markdown 标记或代码块符号。
 
 {
-  "orderText": "I'd like to order: 1 Kung Pao Chicken, 2 Fried Rice. Thank you!",
-  "orderTextLocal": "こんにちは、注文します：宮保鶏丁 1つ、炒飯 2つ。お願いします。"
+  "orderText": "（用${userLang}写的点单话术）",
+  "orderTextLocal": "（用${targetLang}写的点单话术，给服务员看）"
 }
 
-**orderText**：用户母语版本
-**orderTextLocal**：当地语言版本（服务员看的）
-如果两个字段内容相同，填一样的即可`;
+**orderText**：必须用${userLang}写
+**orderTextLocal**：必须用${targetLang}写`;
 
     const raw = await chat(
       [{ role: 'user', content: prompt }],
