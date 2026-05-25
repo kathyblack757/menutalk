@@ -20,6 +20,8 @@ router.post('/ocr', upload.single('image'), async (req, res) => {
 ## 目标语言
 ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
 
+## 重要：translatedName 内容必须使用目标语言 ${targetLang}，严禁使用英语或其他语言
+
 ## 输出格式
 只返回合法 JSON，不要任何解释、markdown 标记或代码块符号。
 
@@ -27,7 +29,7 @@ ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
   "dishes": [
     {
       "originalName": "蚂蚁上树",
-      "translatedName": "Ants Climbing a Tree (glass noodles with minced pork)",
+      "translatedName": "（这里填${targetLang}语言的翻译，不是英语）",
       "pinyin": "mǎ yǐ shàng shù",
       "price": 38,
       "currency": "¥",
