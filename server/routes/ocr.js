@@ -20,16 +20,15 @@ router.post('/ocr', upload.single('image'), async (req, res) => {
 ## 目标语言
 ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
 
-## 重要：translatedName 内容必须使用目标语言 ${targetLang}，严禁使用英语或其他语言
-
 ## 输出格式
 只返回合法 JSON，不要任何解释、markdown 标记或代码块符号。
+注意：translatedName 必须严格使用目标语言 ${targetLang} 输出。
 
 {
   "dishes": [
     {
       "originalName": "蚂蚁上树",
-      "translatedName": "（这里填${targetLang}语言的翻译，不是英语）",
+      "translatedName": "（此处填${targetLang}翻译名）",
       "pinyin": "mǎ yǐ shàng shù",
       "price": 38,
       "currency": "¥",
@@ -43,8 +42,8 @@ ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
 
 **translatedName**
 - 菜名直接翻译即可
-- 含文化隐喻的菜名（如"蚂蚁上树""狮子头""夫妻肺片"），在译名后加括号简要说明实物，如 "Lion's Head (large pork meatballs)"
-- 括号内实物描述不超过 15 个英文单词
+- 含文化隐喻的菜名（如"蚂蚁上树""狮子头""夫妻肺片"），在译名后加括号简要说明实物
+- 括号内实物描述不超过 15 个单词
 - 不得出现令目标语言用户产生误解或恐惧的直译
 
 **confidence**
