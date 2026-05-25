@@ -31,7 +31,7 @@ ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
       "translatedName": "（此处填${targetLang}翻译名）",
       "pinyin": "mǎ yǐ shàng shù",
       "price": 38,
-      "currency": "¥",
+      "currency": "CNY",
       "confidence": "high"
     }
   ],
@@ -53,7 +53,8 @@ ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
 
 **price**
 - 识别不到价格填 null
-- 只填数字，货币符号单独放 currency 字段
+- 只填数字
+- currency 填 ISO 4217 货币代码（如 CNY、JPY、USD、EUR、KRW），不要填符号
 
 ## 排除规则
 以下内容不作为菜品处理，直接忽略：
