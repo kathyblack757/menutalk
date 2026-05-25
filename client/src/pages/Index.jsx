@@ -110,15 +110,21 @@ const Index = () => {
       const ocrDishes = ocrResult.dishes || [];
 
       // 用 OCR 识别出的第一种货币作为菜单货币
-      const menuCurrency = ocrDishes[0]?.currency || defaultCurrency;
+      const symbolToCode = { '¥': 'JPY', '￥': 'JPY', '₩': 'KRW', '€': 'EUR', '£': 'GBP', '$': 'USD' };
+      const rawCurrency = ocrDishes[0]?.currency || '';
+      const menuCurrency = symbolToCode[rawCurrency] || rawCurrency || defaultCurrency;
 
       // 获取汇率
       let exchangeRate = 1;
-      if (menuCurrency !== userCurrency) {
+      if (menuCurrency && userCurrency && menuCurrency !== userCurrency) {
         try {
           const rateResult = await getExchangeRate(menuCurrency, userCurrency);
-          exchangeRate = rateResult.rate || 1;
-        } catch { /* 汇率失败用 1:1 兜底 */ }
+          if (rateResult.rate && rateResult.rate > 0) {
+            exchangeRate = rateResult.rate;
+          }
+        } catch (e) {
+          console.error('汇率获取失败:', menuCurrency, '→', userCurrency, e);
+        }
       }
 
       // 转换为 DishCard 兼容格式
