@@ -41,7 +41,7 @@ ${targetLang}（翻译菜品名称时使用的语言，请严格遵守）
 
 ## 字段说明
 
-**detectedLanguage**：菜单文字的语言代码（zh/en/ja/ko）
+**detectedLanguage**：菜单文字的语种代码（zh/en/ja/ko），必须准确判断，韩文=ko、日文=ja、中文=zh、英文=en
 
 **translatedName**
 - 菜名直接翻译即可
