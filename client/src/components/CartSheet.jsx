@@ -27,13 +27,15 @@ const CartSheet = ({ open, onOpenChange, cart, onUpdateQuantity, onRemove, userL
     setScriptLoading(true);
     setShowScript(true);
     try {
+      // 用菜品自带的菜单语言（OCR检测的），不用 settings 避免延迟
+      const menuLang = cart[0]?.menuLanguage || userLanguage;
       const dishList = cart.map((i) => ({
-        translatedName: getItemName(i, userLanguage),
+        translatedName: getItemName(i, menuLang),
         quantity: i.quantity,
       }));
       const result = await generateOrder(
         dishList,
-        userLanguage,
+        menuLang,
         lang,
         totalMenu.toFixed(2),
         totalUser.toFixed(2),
@@ -53,7 +55,7 @@ const CartSheet = ({ open, onOpenChange, cart, onUpdateQuantity, onRemove, userL
     if (!orderText) return;
     const u = new SpeechSynthesisUtterance(orderText);
     const langMap = { zh: 'zh-CN', en: 'en-US', ja: 'ja-JP', ko: 'ko-KR' };
-    u.lang = langMap[userLanguage] || 'en-US';
+    u.lang = langMap[cart[0]?.menuLanguage] || langMap[userLanguage] || 'en-US';
     u.rate = speechRate;
     window.speechSynthesis.speak(u);
   };
