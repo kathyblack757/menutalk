@@ -120,30 +120,31 @@ const Index = () => {
       }
       const defaultCurrency = userSettings.localCurrency || langToCurrency[targetLang] || 'USD';
 
-      // 用 OCR 识别出的第一种货币作为菜单货币
+      // 符号→代码映射
       const symbolToCode = { '¥': 'JPY', '￥': 'JPY', '₩': 'KRW', '€': 'EUR', '£': 'GBP', '$': 'USD' };
-      const rawCurrency = ocrDishes[0]?.currency || '';
-      const menuCurrency = symbolToCode[rawCurrency] || rawCurrency || defaultCurrency;
 
-      // 获取汇率
+      // 获取汇率（取第一个有效货币）
+      const rawCur = ocrDishes.find((d) => d.currency)?.currency || '';
+      const menuCurrency = symbolToCode[rawCur] || rawCur || defaultCurrency;
       let exchangeRate = 1;
-      if (menuCurrency && userCurrency && menuCurrency !== userCurrency) {
+      if (menuCurrency && menuCurrency !== userCurrency) {
         try {
           const rateResult = await getExchangeRate(menuCurrency, userCurrency);
-          if (rateResult.rate && rateResult.rate > 0) {
-            exchangeRate = rateResult.rate;
-          }
-        } catch (e) {
-          console.error('汇率获取失败:', menuCurrency, '→', userCurrency, e);
-        }
+          exchangeRate = rateResult.rate > 0 ? rateResult.rate : 1;
+        } catch (e) { console.error('汇率失败:', e); }
       }
 
       // 转换为 DishCard 兼容格式
       let cardDishes = ocrDishes.map((d, i) => {
-        const card = ocrToDishCard(d, i, menuCurrency, targetLang);
-        // 添加用户货币换算
-        if (d.price != null && menuCurrency !== userCurrency) {
-          card.prices[userCurrency] = Math.round(d.price * exchangeRate * 100) / 100;
+        const dishCur = symbolToCode[d.currency] || d.currency || menuCurrency;
+        const card = ocrToDishCard(d, i, dishCur, targetLang);
+        // 每道菜都尝试换算
+        const price = d.price != null ? d.price : card.prices[dishCur];
+        if (price != null && dishCur !== userCurrency) {
+          const rate = dishCur === menuCurrency ? exchangeRate : 1;
+          card.prices[userCurrency] = Math.round(price * rate * 100) / 100;
+        } else if (price != null) {
+          card.prices[userCurrency] = price;
         }
         return card;
       });
